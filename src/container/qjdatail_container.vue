@@ -1,0 +1,190 @@
+<template>
+  <div class="container leavedetails">
+    <div class="topbar" style="height: 52px;">
+      <div class="top-head">
+        <div @click="goToList()">
+          <a>
+            <i class="iconfont icon-back" style="color: #FFF;"></i>
+          </a>
+        </div>
+        <div>请假信息</div>
+        <div>
+          <a>
+            <i class="iconfont icon-fangzi" style="color: #FFF;"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+    <!--审核通过 调用class  pass   为通过调用  notpass-->
+    <div class="leaveinfo pass">
+      <form id="form1" name="form1">
+        <div class="info gcp" data-form="form1" style="position:relative;">
+          <div class="avatar" style="width: 45px;height: 45px;font-size: 17px;">
+            {{ getName("who", 2) }}
+          </div>
+          <div class="name">
+            <span style="font-size: 16px;">{{getName("who")}}</span>
+            <span style="font-size: 12px;color: #cac0c0fa;">审批已通过</span>
+          </div>
+          <div class="weui-cell__ft"></div>
+        </div>
+      </form>
+      <div class="infodetails">
+        <div class="box">
+          <div class="item">
+            <span class="title">所在学院</span>
+            <span>{{detail.college}}</span>
+          </div>
+        </div>
+        <div class="box">
+          <div class="item">
+            <span class="title">请假类型</span>
+            <span>{{detail.type}}</span>
+          </div>
+          <div class="item">
+            <span class="title">请假时长</span>
+            <span id="qjsxs">{{getDelta(detail.start,detail.end)}}</span>
+          </div>
+        </div>
+        <div class="box">
+          <div class="item">
+            <span class="title">请假开始时间</span>
+            <span>{{detail.start}}</span>
+          </div>
+          <div class="item">
+            <span class="title">请假结束时间</span>
+            <span>{{detail.end}}</span>
+          </div>
+        </div>
+      </div>
+      <div class="explain" style="border-top: #f3f3f3 0px solid; margin-top: -30px;overflow: auto;">
+        <div class="box">
+          <span class="title">行程范围</span>
+          <p class="infocontent">{{detail.range}}</p>
+        </div>
+        <div class="box">
+          <span class="title">事由说明</span>
+          <p class="infocontent" style="white-space: pre-line">{{detail.reason}}</p>
+        </div>
+        <div class="box">
+          <span class="title">前往目的地</span>
+          <p class="infocontent">{{detail.place}}</p>
+        </div>
+      </div>
+    </div>
+    <div class="flow">
+      <ul>
+        <li>
+          <!--审核通过 调用class  pass   为通过调用  notpass-->
+          <div class="avatar">
+            {{ getName("who", 2) }}
+          </div>
+          <div class="content">
+            <div class="ttl"><span class="text" style="font-size: 16px;">发起申请</span> <span
+                class="time">{{detail.apply.substring(5,detail.apply.length-3)}}</span></div>
+          </div>
+        </li>
+        <li>
+          <!--审核通过 调用class  pass   为通过调用  notpass-->
+          <div class="avatar pass">
+            {{ getName("teacher1", 2) }}
+          </div>
+          <div class="content">
+            <div class="ttl"><span class="text" style="font-size: 16px;">{{ getName("teacher1") }}审核（已通过）</span>
+              <span class="time" v-once v-text="getRandCheckDate(detail.apply)"></span>
+            </div>
+            <div class="ctn"></div>
+          </div>
+        </li>
+        <li>
+          <!--审核通过 调用class  pass   为通过调用  notpass-->
+          <div class="avatar pass">
+            {{ getName("teacher2", 2) }}
+          </div>
+          <div class="content">
+            <div class="ttl"><span class="text" style="font-size: 16px;">{{ getName("teacher2") }}审核（已通过）</span> <span
+                class="time" v-once v-text="getRandCheckDate(detail.apply)"></span></div>
+            <div class="ctn"></div>
+          </div>
+        </li>
+        <li v-if="idx > 0">
+          <div class="avatar">
+            {{ getName("who", 2) }}
+          </div>
+          <div class="content">
+            <div class="ttl"><span class="text" style="font-size: 16px;">销假</span> <span class="time" v-once v-text="getRandCheckDate(detail.end)"></span>
+            </div>
+            <div class="ctn">完成</div>
+          </div>
+        </li>
+        <li>
+          <div class="pointer">
+            <i class="icon"></i>
+          </div>
+          <div class="content pointer">
+            <div class="ttl">审批共耗时{{this.spdelta / 60000}}分钟</div>
+          </div>
+        </li>
+      </ul>
+    </div>
+    <div class="footer-copy-space"></div>
+  </div>
+</template>
+
+<script>
+export default {
+  name: "qjdatail_container",
+  props:["detail","idx"],
+  data(){
+    return {
+      spdelta:0,
+    }
+  },
+  methods: {
+    goToList() {
+      window.location = ""
+    },
+    getName(key, len){
+      let teacherName = localStorage.getItem(key)
+      if(!len || !teacherName) return teacherName;
+      return teacherName.substring(teacherName.length - len)
+    },
+    getDelta(start,end){
+      let _start = new Date(start)
+      let _end = new Date(end)
+      let delta = _end.getTime() - _start.getTime();
+      let result = '';
+      let hour = Math.floor(delta / 3600_000)
+      if(hour >=  1) result += hour+"小时 "
+      let min = Math.floor((delta%3600_000) / 60_000)
+      if(min >= 1) result += min+"分钟"
+      return result
+    },
+    //要求审批一小时内完成，且请假的起始日期必须在当前时间的2小时后
+    //审批共2轮，每轮设定在20~30分钟之间
+    getRandCheckDate(apply){
+      let _apply = new Date(apply)
+      let delta = this.spdelta
+      //延后 20~30 分钟
+      delta += (Math.floor(Math.random()*10) + 20) * 60 * 1000;
+      //记录审批延时
+      this.spdelta = delta
+      let _date = new Date(_apply.getTime() + delta)
+      // console.log(_apply,_date)
+      let month = _date.getMonth() + 1
+      month = month < 10? '0' + month : month
+      let day = _date.getDate()
+      day = day < 10 ? '0' + day : day
+      let hour = _date.getHours()
+      hour = hour < 10 ? '0' + hour:hour
+      let min = _date.getMinutes()
+      min = min < 10 ? '0' + min:min
+      return month + '-' + day + ' ' + hour  + ':' + min
+    }
+  }
+}
+</script>
+
+<style scoped>
+
+</style>

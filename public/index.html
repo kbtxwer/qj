@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <link rel="icon" href="<%= BASE_URL %>favicon.ico">
+      <meta charset="UTF-8">
+      <meta name="viewport"
+            content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+      <meta http-equiv="X-UA-Compatible" content="ie=edge">
+      <link rel="stylesheet" href="wx/xg/yz-mobile/lib/weui/css/weui.css"/>
+      <link rel="stylesheet" href="wx/xg/yz-mobile/lib/weui/css/weuix.css"/>
+      <link rel="stylesheet" href="wx/xg/yz-mobile/css/main.css">
+      <link rel="stylesheet" href="wx/xg/yz-mobile/css/home.css">
+      <link rel="stylesheet" href="wx/xg/yz-mobile/css/font.css">
+      <script src="wx/xg/yz-mobile/js/checkdev.js"></script>
+      <script src="wx/xg/yz-mobile/lib/weui/js/zepto.min.js"></script>
+      <script src="wx/xg/yz-mobile/lib/weui/js/zepto.weui.js"></script>
+
+      <script src="./lib/weui/js/iscroll-lite.js"></script>
+      <title>请假列表</title>
+      <style type="text/css">
+          .box-text {
+              width: 90%;
+              margin: 30px 5% 0 5%;
+              padding: 5px 156px;
+              border-top: 1px solid #ece1e1;
+          }
+          .box-text .box-text-title {
+              display: block;
+              width: 100px;
+              position: relative;
+              top: -15px;
+              text-align: center;
+              background: white;
+              font-size: 12px;
+              color: #b3b3b3;
+              background-color: #F3F3F3;
+          }
+          .weui-cells.leavelist .weui-cell .weui-cell__icon {
+              width: 50px;
+              height: 50px;
+              font-size: 17px;
+          }
+          .fhan{
+              transform:rotate(-180deg)
+          }
+          .fhbtn{
+              background-color:transparent;
+              border-style:none;
+              float: left;
+              line-height:20px;
+              color: #538fff;
+              outline: none;
+              margin-left: 15px;
+          }
+
+          .weui-btn:after {
+              border: 0px solid rgba(0, 0, 0, 0.2);
+          }
+
+          a:hover {text-decoration: none; color:#000000}
+      </style>
+
+    <title><%= htmlWebpackPlugin.options.title %></title>
+  </head>
+  <body>
+    <noscript>
+      <strong>We're sorry but <%= htmlWebpackPlugin.options.title %> doesn't work properly without JavaScript enabled. Please enable it to continue.</strong>
+    </noscript>
+    <div id="app"></div>
+    <!-- built files will be auto injected -->
+  </body>
+</html>
