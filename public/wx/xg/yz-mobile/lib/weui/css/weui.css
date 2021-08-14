@@ -487,6 +487,25 @@ input.weui-btn_plain-default{
   padding-right:13px;
   position:relative;
 }
+
+.info .weui-cell__ft:after{
+  content:" ";
+  display:inline-block;
+  height:6px;
+  width:6px;
+  border-width:2px 2px 0 0;
+  border-color:#C8C8CD;
+  border-style:solid;
+  -webkit-transform:matrix(0.71, 0.71, -0.71, 0.71, 0, 0);
+  transform:matrix(0.71, 0.71, -0.71, 0.71, 0, 0);
+  position:relative;
+  top:-2px;
+  position:absolute;
+  top:50%;
+  margin-top:-4px;
+  right:10px;
+}
+
 .weui-cell_access .weui-cell__ft:after{
   content:" ";
   display:inline-block;

@@ -740,7 +740,7 @@ ul,li {
 .container.leavedetails .leaveinfo.pass:after {
 	position: absolute;
 	right: 40px;
-	top: 40px;
+	top: 67px;
 	width: 90px;
 	height: 90px;
 	content: "";

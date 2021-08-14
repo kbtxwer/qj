@@ -140,8 +140,12 @@ export default {
       detail.range = this.range
       detail.place = this.place
       detail.college=this.college
-      detail.apply = this.getNowDate()
-      applies.unshift(detail)
+      //将申请日期前移一天，方便“随时”申请
+      detail.apply = this.getYesterdayDate()
+      //防止注入空值引发错误
+      if(detail.start && detail.end && detail.reason && detail.place &&detail.college) {
+        applies.unshift(detail)
+      }
       while (applies.length > 10) {
         applies.remove(9)
       }
@@ -152,8 +156,8 @@ export default {
       localStorage.setItem("college", this.college)
       this.goToList()
     },
-    getNowDate() {
-      let date = new Date();
+    getYesterdayDate() {
+      let date = new Date(new Date().getTime() - 86400000);
       let sign1 = "-";
       let sign2 = ":";
       let year = date.getFullYear() // 年

@@ -1,6 +1,6 @@
 <template>
   <div class="container leavedetails">
-    <div class="topbar" style="height: 52px;">
+    <div class="topbar" style="height: 52px;display: none" >
       <div class="top-head">
         <div @click="goToList()">
           <a>
@@ -23,10 +23,11 @@
             {{ getName("who", 2) }}
           </div>
           <div class="name">
-            <span style="font-size: 16px;">{{getName("who")}}</span>
-            <span style="font-size: 12px;color: #cac0c0fa;">审批已通过</span>
+            <span style="font-size: 16px;color: white">{{getName("who")}}</span>
+            <span style="font-size: 12px;color: #cac0c0;">审批已通过</span>
           </div>
-          <div class="weui-cell__ft"></div>
+          <div class="weui-cell__ft">
+          </div>
         </div>
       </form>
       <div class="infodetails">
@@ -127,7 +128,9 @@
         </li>
       </ul>
     </div>
-    <div class="footer-copy-space"></div>
+    <div class="footer-copy-space">
+      <div style="text-align:left;"> <button type="button" @click="goToList" style="background-color:transparent;border-style:none;line-height:30px;color:#538fff;outline:0;"> <i id="fhan" style="font-size:14px;margin-right:-3px;" class="icon iconfont "></i> 返回 </button> </div>
+    </div>
   </div>
 </template>
 
