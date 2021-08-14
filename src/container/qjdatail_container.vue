@@ -1,6 +1,6 @@
 <template>
   <div class="container leavedetails">
-    <div class="topbar" style="height: 52px;display: none" >
+    <div class="topbar" style="height: 52px;display: none">
       <div class="top-head">
         <div @click="goToList()">
           <a>
@@ -23,7 +23,7 @@
             {{ getName("who", 2) }}
           </div>
           <div class="name">
-            <span style="font-size: 16px;color: white">{{getName("who")}}</span>
+            <span style="font-size: 16px;color: white">{{ getName("who") }}</span>
             <span style="font-size: 12px;color: #cac0c0;">审批已通过</span>
           </div>
           <div class="weui-cell__ft">
@@ -34,42 +34,46 @@
         <div class="box">
           <div class="item">
             <span class="title">所在学院</span>
-            <span>{{detail.college}}</span>
+            <span>{{ detail.college }}</span>
           </div>
         </div>
         <div class="box">
           <div class="item">
             <span class="title">请假类型</span>
-            <span>{{detail.type}}</span>
+            <span>{{ detail.type }}</span>
           </div>
           <div class="item">
             <span class="title">请假时长</span>
-            <span id="qjsxs">{{getDelta(detail.start,detail.end)}}</span>
+            <span id="qjsxs">{{ getDelta(detail.start, detail.end) }}</span>
           </div>
         </div>
         <div class="box">
           <div class="item">
             <span class="title">请假开始时间</span>
-            <span>{{detail.start}}</span>
+            <span>{{ getTimeText(detail.start) }}</span>
           </div>
           <div class="item">
             <span class="title">请假结束时间</span>
-            <span>{{detail.end}}</span>
+            <span>{{ getTimeText(detail.end) }}</span>
           </div>
         </div>
       </div>
       <div class="explain" style="border-top: #f3f3f3 0px solid; margin-top: -30px;overflow: auto;">
         <div class="box">
           <span class="title">行程范围</span>
-          <p class="infocontent">{{detail.range}}</p>
+          <p class="infocontent">{{ detail.range }}</p>
         </div>
         <div class="box">
           <span class="title">事由说明</span>
-          <p class="infocontent" style="white-space: pre-line">{{detail.reason}}</p>
+          <p class="infocontent" style="white-space: pre-line">{{ detail.reason }}</p>
         </div>
         <div class="box">
           <span class="title">前往目的地</span>
-          <p class="infocontent">{{detail.place}}</p>
+          <p class="infocontent">{{ detail.place }}</p>
+        </div>
+        <div class="box" v-if="idx===0">
+          <a style="width:45%;height:46px;margin-top:15px;background-color:#d66f2b;color:#fff;" class="weui-btn bg-blue">请假延期</a>
+          <a @click="goToList" style="width:45%;background-color:#46ad77;color:#fff;" class="weui-btn bg-blue">销假</a>
         </div>
       </div>
     </div>
@@ -82,7 +86,7 @@
           </div>
           <div class="content">
             <div class="ttl"><span class="text" style="font-size: 16px;">发起申请</span> <span
-                class="time">{{detail.apply.substring(5,detail.apply.length-3)}}</span></div>
+                class="time">{{ detail.apply.substring(5, detail.apply.length - 3) }}</span></div>
           </div>
         </li>
         <li>
@@ -113,7 +117,8 @@
             {{ getName("who", 2) }}
           </div>
           <div class="content">
-            <div class="ttl"><span class="text" style="font-size: 16px;">销假</span> <span class="time" v-once v-text="getRandCheckDate(detail.end)"></span>
+            <div class="ttl"><span class="text" style="font-size: 16px;">销假</span>
+              <span class="time" v-once v-text="getRandCheckDate(detail.end)"></span>
             </div>
             <div class="ctn">完成</div>
           </div>
@@ -123,13 +128,18 @@
             <i class="icon"></i>
           </div>
           <div class="content pointer">
-            <div class="ttl">审批共耗时{{this.spdelta / 60000}}分钟</div>
+            <div class="ttl">审批共耗时{{ this.spdelta / 60000 }}分钟</div>
           </div>
         </li>
       </ul>
     </div>
     <div class="footer-copy-space">
-      <div style="text-align:left;"> <button type="button" @click="goToList" style="background-color:transparent;border-style:none;line-height:30px;color:#538fff;outline:0;"> <i id="fhan" style="font-size:14px;margin-right:-3px;" class="icon iconfont "></i> 返回 </button> </div>
+      <div style="text-align:left;">
+        <button type="button" @click="goToList"
+                style="background-color:transparent;border-style:none;line-height:30px;color:#538fff;outline:0;"><i
+            id="fhan" style="font-size:14px;margin-right:-3px;" class="icon iconfont "></i> 返回
+        </button>
+      </div>
     </div>
   </div>
 </template>
@@ -137,52 +147,60 @@
 <script>
 export default {
   name: "qjdatail_container",
-  props:["detail","idx"],
-  data(){
+  props: ["detail", "idx"],
+  data() {
     return {
-      spdelta:0,
+      spdelta: 0,
     }
   },
   methods: {
+    getTimeText(stime){
+      stime = stime.replace(":00","")
+      if(stime.indexOf(":") === -1) stime += "时"
+      else{
+        stime = stime.replace(":","时") + "分"
+      }
+      return stime
+    },
     goToList() {
       window.location = ""
     },
-    getName(key, len){
+    getName(key, len) {
       let teacherName = localStorage.getItem(key)
-      if(!len || !teacherName) return teacherName;
+      if (!len || !teacherName) return teacherName;
       return teacherName.substring(teacherName.length - len)
     },
-    getDelta(start,end){
+    getDelta(start, end) {
       let _start = new Date(start)
       let _end = new Date(end)
       let delta = _end.getTime() - _start.getTime();
       let result = '';
       let hour = Math.floor(delta / 3600_000)
-      if(hour >=  1) result += hour+"小时 "
-      let min = Math.floor((delta%3600_000) / 60_000)
-      if(min >= 1) result += min+"分钟"
+      if (hour >= 1) result += hour + "小时 "
+      let min = Math.floor((delta % 3600_000) / 60_000)
+      if (min >= 1) result += min + "分钟"
       return result
     },
     //要求审批一小时内完成，且请假的起始日期必须在当前时间的2小时后
     //审批共2轮，每轮设定在20~30分钟之间
-    getRandCheckDate(apply){
+    getRandCheckDate(apply) {
       let _apply = new Date(apply)
       let delta = this.spdelta
       //延后 20~30 分钟
-      delta += (Math.floor(Math.random()*10) + 20) * 60 * 1000;
+      delta += (Math.floor(Math.random() * 10) + 20) * 60 * 1000;
       //记录审批延时
       this.spdelta = delta
       let _date = new Date(_apply.getTime() + delta)
       // console.log(_apply,_date)
       let month = _date.getMonth() + 1
-      month = month < 10? '0' + month : month
+      month = month < 10 ? '0' + month : month
       let day = _date.getDate()
       day = day < 10 ? '0' + day : day
       let hour = _date.getHours()
-      hour = hour < 10 ? '0' + hour:hour
+      hour = hour < 10 ? '0' + hour : hour
       let min = _date.getMinutes()
-      min = min < 10 ? '0' + min:min
-      return month + '-' + day + ' ' + hour  + ':' + min
+      min = min < 10 ? '0' + min : min
+      return month + '-' + day + ' ' + hour + ':' + min
     }
   }
 }
