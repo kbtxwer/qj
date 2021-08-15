@@ -86,7 +86,7 @@
           </div>
           <div class="content">
             <div class="ttl"><span class="text" style="font-size: 16px;">发起申请</span> <span
-                class="time">{{ detail.apply.substring(5, detail.apply.length - 3) }}</span></div>
+                class="time">{{ formatDate(new Date(detail.apply)).substring(5) }}</span></div>
           </div>
         </li>
         <li>
