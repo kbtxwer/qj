@@ -32,6 +32,7 @@ import Pager from "@/components/qjsq_list_components/pager";
 
 export default {
   name: "qjsq_list",
+  props:["item"],
   components: {Pager, Leave_item},
   methods:{
     emitDetail(detail,idx){
@@ -40,20 +41,6 @@ export default {
     goToAdd(){
       window.location='?method=add'
     }
-  },
-  data() {
-    return {
-      item: []
-    }
-  },
-  mounted() {
-    this.item = localStorage.getItem("leave_apply")
-    if(this.item==null) {
-      this.item = []
-    } else{
-      this.item = JSON.parse(this.item)
-    }
-    console.log(this.item)
   }
 }
 </script>

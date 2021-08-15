@@ -72,7 +72,7 @@
           <p class="infocontent">{{ detail.place }}</p>
         </div>
         <div class="box" v-if="idx===0">
-          <a style="width:45%;height:46px;margin-top:15px;background-color:#d66f2b;color:#fff;" class="weui-btn bg-blue">请假延期</a>
+          <a @click="makeDelay" style="width:45%;height:46px;margin-top:15px;background-color:#d66f2b;color:#fff;" class="weui-btn bg-blue">请假延期</a>
           <a @click="goToList" style="width:45%;background-color:#46ad77;color:#fff;" class="weui-btn bg-blue">销假</a>
         </div>
       </div>
@@ -161,6 +161,44 @@ export default {
         stime = stime.replace(":","时") + "分"
       }
       return stime
+    },
+    makeDelay(){
+      let _start = new Date(new Date(this.detail.start).getTime() + 86400000)
+      let _end = new Date(new Date(this.detail.end).getTime() + 86400000)
+      let _apply = new Date(new Date(this.detail.apply).getTime() + 86400000)
+      //格式化 yyyy-MM-dd HH:mm
+      console.log(_start,_end,_apply)
+      this.detail.start = this.formatDate(_start)
+      this.detail.end = this.formatDate(_end)
+      this.detail.apply = this.formatDate(_apply)
+      this.$emit("update",this.detail)
+    },
+    formatDate(date){
+      let sign1 = "-";
+      let sign2 = ":";
+      let year = date.getFullYear() // 年
+      let month = date.getMonth() + 1; // 月
+      let day = date.getDate(); // 日
+      let hour = date.getHours(); // 时
+      let minutes = date.getMinutes(); // 分
+      // let seconds = date.getSeconds() //秒
+      // 给一位数数据前面加 “0”
+      if (month >= 1 && month <= 9) {
+        month = "0" + month;
+      }
+      if (day >= 0 && day <= 9) {
+        day = "0" + day;
+      }
+      if (hour >= 0 && hour <= 9) {
+        hour = "0" + hour;
+      }
+      if (minutes >= 0 && minutes <= 9) {
+        minutes = "0" + minutes;
+      }
+      // if (seconds >= 0 && seconds <= 9) {
+      //   seconds = "0" + seconds;
+      // }
+      return year + sign1 + month + sign1 + day + " " + hour + sign2 + minutes;
     },
     goToList() {
       window.location = ""

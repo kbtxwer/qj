@@ -1,8 +1,8 @@
 <template>
   <div id="app">
-    <Qjsq_list v-if=" !method || method==='list' " @detail="goToDatail"/>
+    <Qjsq_list v-if=" !method || method==='list' " :item="item"  @detail="goToDatail"/>
     <Qjadd_container v-if="method==='add'"/>
-    <Qjdatail_container v-if="method==='detail'" :detail="detail" :idx="detail_idx"/>
+    <Qjdatail_container v-if="method==='detail'" :detail="detail" :idx="detail_idx" @update="updateData"/>
   </div>
 </template>
 
@@ -17,10 +17,16 @@ export default {
     return {
       method : '',
       detail:{},
+      item:[],
       detail_idx:0,
     }
   },
   methods:{
+    updateData(detail){
+      console.log(detail);
+      this.item[0] = detail
+      localStorage.setItem("leave_apply", JSON.stringify(this.item))
+    },
     goToDatail(d,i){
       this.detail = d
       this.detail_idx = i
@@ -39,6 +45,12 @@ export default {
     }else {
       this.method = 'list'
     }
+
+    this.item = localStorage.getItem("leave_apply")
+    if(this.item){
+      this.item = JSON.parse(this.item)
+    }
+
   }
 }
 </script>
